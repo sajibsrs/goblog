@@ -1,13 +1,18 @@
+// This file handles the application entry
+// configuration and setup
+
 package main
 
 import (
-	"fmt"
+	"goblog/handler"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Say hello to go!")
-	})
-	http.ListenAndServe(":2000", nil)
+	http.HandleFunc("/", handler.Index)
+	server := http.Server{
+		Addr:              "127.0.0.1:2000",
+		Handler:           nil,
+	}
+	server.ListenAndServe()
 }
