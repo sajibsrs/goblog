@@ -12,4 +12,4 @@ Part of the challenge of creating same application with same features in **larav
 * TODO: Post image and user profile picture
 
 ## Content
-* php 1.14.1
+* Go 1.14.1
