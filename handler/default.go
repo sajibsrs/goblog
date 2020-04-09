@@ -1,3 +1,6 @@
+// This file handles default routes of the application
+// and serves templates accordingly
+
 package handler
 
 import (
