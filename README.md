@@ -13,3 +13,4 @@ Part of the challenge of creating same application with same features in **larav
 
 ## Content
 * Go 1.14.1
+* Run development server: **go run main.go** and visit to 127.0.0.1:2000 on the browser.
