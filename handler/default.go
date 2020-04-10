@@ -9,6 +9,6 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	tmpl, _ := template.ParseFiles("template/default/layout.html")
+	tmpl := template.Must(template.ParseFiles("template/default/layout.html"))
 	tmpl.ExecuteTemplate(w, "layout", "content")
 }
