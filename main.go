@@ -9,10 +9,13 @@ import (
 )
 
 func main() {
-	server := http.Server{
+	mux := http.NewServeMux()
+	files := http.FileServer(http.Dir("public"))
+	mux.Handle("/static/", http.StripPrefix("/static/", files))
+	mux.HandleFunc("/", handler.Index)
+	server := &http.Server{
 		Addr:              "127.0.0.1:2000",
-		Handler:           nil,
+		Handler:           mux,
 	}
-	http.HandleFunc("/", handler.Index)
 	server.ListenAndServe()
 }
