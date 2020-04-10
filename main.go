@@ -10,7 +10,7 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
-	files := http.FileServer(http.Dir("public"))
+	files := http.FileServer(http.Dir("static"))
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 	mux.HandleFunc("/", handler.Index)
 	server := &http.Server{
