@@ -4,10 +4,11 @@
 package handler
 
 import (
-	"fmt"
+	"html/template"
 	"net/http"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Say hello to go!")
+	tmpl, _ := template.ParseFiles("template/default/layout.html")
+	tmpl.ExecuteTemplate(w, "layout", "content")
 }
