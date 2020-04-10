@@ -5,9 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Go blog</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
 </head>
 <body>
+    {{ template "navigation"}}
+    <div class="container">
+        {{ template "content"}}
+    </div>
 
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
 </body>
 </html>
 
