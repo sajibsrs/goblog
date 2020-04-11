@@ -3,11 +3,11 @@ This is a simple **golang** blog application. That has authentication system.
 Part of the challenge of creating same application with same features in **laravel**, **ruby on rails**, **django**, **dotnet core**, **spring**, **golang** and **nodejs**. In the beginning we'll be using go's built in features as much as possible to better understand what go has to offer for web development out of the box.
 
 ## Features
-* TODO: HTTP server
-* TODO: HTTP request handling
-* TODO: Template handing
-* TODO: Static resource handling
-* TODO: MySQL database integration
+* HTTP server
+* HTTP request handling
+* Template handing
+* Static resource handling
+* MySQL database integration
 * TODO: Authentication
 * TODO: User profile
 * TODO: Posts
