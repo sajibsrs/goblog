@@ -9,11 +9,11 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	tmpls := []string{
+	files := []string{
 		"template/default/layout.html",
 		"template/default/content.html",
 		"template/default/navigation.html"}
 
-	tmpl := template.Must(template.ParseFiles(tmpls...))
-	tmpl.ExecuteTemplate(w, "layout", r)
+	tmpl := template.Must(template.ParseFiles(files...))
+	_ = tmpl.ExecuteTemplate(w, "layout", r)
 }

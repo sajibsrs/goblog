@@ -17,5 +17,5 @@ func main() {
 		Addr:              "127.0.0.1:2000",
 		Handler:           mux,
 	}
-	server.ListenAndServe()
+	_ = server.ListenAndServe()
 }
