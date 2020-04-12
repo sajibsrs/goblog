@@ -1,6 +1,7 @@
 package data
 
 import (
+	"crypto/rand"
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
@@ -13,4 +14,15 @@ func init() {
 	}
 	defer db.Close()
 	fmt.Println("Database connected")
+}
+
+func generateUUID() string {
+	u := new([16]byte)
+	_, err := rand.Read(u[:])
+	if err != nil {
+		panic(err.Error())
+	}
+	u[8] = (u[8] | 0x40) & 0x7F
+	u[6] = (u[6] & 0xF) | (0x4 << 4)
+	return fmt.Sprintf("%x-%x-%x-%x-%x", u[0:4], u[4:6], u[6:8], u[8:10], u[10:])
 }
