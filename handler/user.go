@@ -9,6 +9,10 @@ import (
 )
 
 func User(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
 	files := []string{
 		"template/default/layout.html",
 		"template/user/detail.html",
