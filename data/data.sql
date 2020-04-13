@@ -1,31 +1,37 @@
-drop table if exists posts;
-drop table if exists sessions;
-drop table if exists users;
+DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS users;
 
-create table users (
-  id         int not null primary key,
-  uuid       varchar(64) not null unique,
-  fname      varchar(255),
-  lname      varchar(255),
-  email      varchar(255) not null unique,
-  password   varchar(255) not null,
-  created_at timestamp not null
-);
+CREATE TABLE users (
+  `id`         INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `uuid`       VARCHAR(64) NOT NULL UNIQUE,
+  `fname`      VARCHAR(255),
+  `lname`      VARCHAR(255),
+  `email`      VARCHAR(255) NOT NULL UNIQUE,
+  `password`   VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-create table sessions (
-  id         int not null primary key,
-  uuid       varchar(64) not null unique,
-  fname      varchar(255),
-  lname      varchar(255),
-  email      varchar(255) not null unique,
-  user_id    integer references users(id),
-  created_at timestamp not null
-);
+CREATE TABLE sessions (
+  `id`         INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `uuid`       VARCHAR(64) NOT NULL UNIQUE,
+  `fname`      VARCHAR(255),
+  `lname`      VARCHAR(255),
+  `email`      VARCHAR(255) NOT NULL,
+  `usr_id`     INT,
+  `created_at` TIMESTAMP NOT NULL,
+  CONSTRAINT fk_session_user FOREIGN KEY (`usr_id`) REFERENCES users(`id`)
+  ON UPDATE CASCADE 
+  ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-create table posts (
-  id         int not null primary key,
-  uuid       varchar(64) not null unique,
-  body       text,
-  user_id    integer references users(id),
-  created_at timestamp not null
-);
+CREATE TABLE posts (
+  `id`         INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `uuid`       VARCHAR(64) NOT NULL UNIQUE,
+  `body`       TEXT,
+  `usr_id`     INT,
+  `created_at` TIMESTAMP NOT NULL,
+  CONSTRAINT fk_post_user FOREIGN KEY (`usr_id`) REFERENCES users(`id`)
+  ON UPDATE CASCADE 
+  ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
