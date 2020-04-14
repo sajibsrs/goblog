@@ -18,7 +18,7 @@ func init() {
 	var err error
 	DB, err = sql.Open("mysql", "root:8080k@tcp(localhost)/goblog")
 	if err != nil {
-		panic(err.Error())
+		log.Fatalln("Unable stablish database connection", err)
 	}
 	return
 }
@@ -28,7 +28,7 @@ func GenerateUUID() (uuid string) {
 	u := new([16]byte)
 	_, err := rand.Read(u[:])
 	if err != nil {
-		log.Fatalln("Cannot generate UUID", err)
+		log.Println("UUID generation failed", err)
 	}
 	u[8] = (u[8] | 0x40) & 0x7F
 	u[6] = (u[6] & 0xF) | (0x4 << 4)
