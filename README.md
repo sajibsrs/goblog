@@ -8,6 +8,9 @@ Part of the challenge of creating same application with same features in **larav
 * Template handing
 * Static resource handling
 * MySQL database integration
+* TODO: Better template management
+* TODO: Better error handling
+* TODO: Better 404 error handling
 * TODO: Authentication
 * TODO: User profile
 * TODO: Posts
