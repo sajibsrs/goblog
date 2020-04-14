@@ -1,0 +1,31 @@
+{{ define "content" }}
+
+<form class="form-signup" role="form" action="/signup_account" method="post">
+  <h2 class="form-signup-heading">Sign up</h2>
+  <hr>
+  <div class="form-group">
+    <label for="fname">First name:</label>
+    <input id="fname" type="text" name="fname" class="form-control" required autofocus>
+  </div>
+  <div class="form-group">
+    <label for="lname">Last name:</label>
+    <input id="lname" type="text" name="lname" class="form-control" required autofocus>
+  </div>
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input id="email" type="email" name="email" class="form-control" required autofocus>
+  </div>
+  <div class="form-group">
+    <label for="pass_one">Password:</label>
+    <input id="pass_one" type="password" name="pass_one" class="form-control" required autofocus>
+  </div>
+  <div class="form-group">
+    <label for="pass_two">Confirm password:</label>
+    <input id="pass_two" type="password" name="pass_two" class="form-control" required autofocus>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary" type="submit">Sign up</button>
+  </div>
+</form>
+
+{{ end }}
