@@ -16,7 +16,6 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 	mux.HandleFunc("/", handler.Index)
 	mux.HandleFunc("/signup", user.New)
-	mux.HandleFunc("/signup_account", user.Create)
 	mux.HandleFunc("/users", user.Index)
 	server := &http.Server{
 		Addr:    "127.0.0.1:2000",
