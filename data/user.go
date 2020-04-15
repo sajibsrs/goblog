@@ -1,7 +1,7 @@
 package data
 
 import (
-	"fmt"
+	"log"
 	"time"
 )
 
@@ -30,36 +30,39 @@ type Session struct {
 // Create method creates new user with provided data
 func (user *User) Create() (err error) {
 	stmt, err := DB.Prepare("INSERT INTO users (uuid, fname, lname, email, password, created_at) VALUES (?, ?, ?, ?, ?, ?)")
-	fmt.Println(stmt)
-	if err != nil {
-		panic(err.Error())
-	}
 	defer stmt.Close()
-	err = stmt.QueryRow(
+	if err != nil {
+		log.Println("Prepare statement error", err)
+		return
+	}
+	res, err := stmt.Exec(
 		GenerateUUID(),
 		user.FName,
 		user.LName,
 		user.Email,
 		Encrypt(user.Password),
 		time.Now(),
-	).Scan(
-		&user.ID,
-		&user.UUID,
-		&user.FName,
-		&user.LName,
-		&user.Email,
-		&user.Created,
 	)
+	if err != nil {
+		log.Println("Unable to insert data", err)
+	}
+	id, err := res.LastInsertId()
+	if err != nil {
+		log.Println("Unable to retrieve user", err)
+	} else {
+		log.Printf("User created with id:%d", id)
+	}
 	return
 }
 
 // CreateSession creates new session for existing user
 func (user *User) CreateSession() (session Session, err error) {
 	stmt, err := DB.Prepare("INSERT INTO sessions (uuid, fname, lname, email, usr_id, created_at) VALUES (?, ?, ?, ?, ?, ?)")
-	if err != nil {
-		panic(err.Error())
-	}
 	defer stmt.Close()
+	if err != nil {
+		log.Println("Prepare statement error", err)
+		return
+	}
 	err = stmt.QueryRow(
 		GenerateUUID(),
 		user.FName,
