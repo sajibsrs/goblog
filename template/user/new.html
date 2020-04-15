@@ -1,6 +1,14 @@
 {{ define "content" }}
 
-<form class="form-signup" role="form" action="/signup_account" method="post">
+{{ if . }}
+  {{ range . }}
+    <div class="alert alert-danger" role="alert">
+      {{ . }}
+    </div>
+  {{ end }}
+{{ end }}
+
+<form class="form-signup" role="form" action="/signup" method="post">
   <h2 class="form-signup-heading">Sign up</h2>
   <hr>
   <div class="form-group">
