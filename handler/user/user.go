@@ -5,35 +5,67 @@ package user
 
 import (
 	"goblog/data"
-	"html/template"
+	"goblog/helper"
+	"log"
 	"net/http"
 	"time"
 )
 
 // Index handles user root request
 func Index(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/users/" {
+	if r.URL.Path != "/users" {
 		http.NotFound(w, r)
 		return
 	}
-	files := []string{
-		"template/default/layout.html",
-		"template/user/detail.html",
-		"template/default/navigation.html"}
-
-	tmpl := template.Must(template.ParseFiles(files...))
-	_ = tmpl.ExecuteTemplate(w, "layout", r)
+	tmp := []string{
+		"user.detail",
+		"default.layout",
+		"default.navigation",
+	}
+	helper.ProcessTemplates(w, "layout", r, tmp...)
 }
 
-// Create new user from http request
-func Create(w http.ResponseWriter, r *http.Request) {
-	user := data.User{
-		UUID:     data.GenerateUUID(),
-		FName:    "Sajidur",
-		LName:    "Rahman",
-		Email:    "sasjibsrs@gmail.com",
-		Password: data.Encrypt("8080k"),
-		Created:  time.Now(),
+// New handles new create user request
+func New(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/signup" {
+		http.NotFound(w, r)
+		return
 	}
-	_ = user.Create()
+	var prob []string
+	tmp := []string{
+		"default.layout",
+		"user.new",
+		"default.navigation",
+	}
+	if r.Method == "POST" {
+		err := r.ParseForm()
+		if err != nil {
+			log.Println("Unable to parse form", err)
+			return
+		}
+		passOne := r.PostFormValue("pass_one")
+		if len(passOne) < 6 {
+			prob = append(prob, "Password should be at least 6 characters")
+		}
+		if passTwo := r.PostFormValue("pass_two"); passOne != passTwo {
+			prob = append(prob, "Password doesn't match")
+		}
+		if prob != nil {
+			helper.ProcessTemplates(w, "layout", prob, tmp...)
+			return
+		}
+		user := data.User{
+			UUID:     data.GenerateUUID(),
+			FName:    r.PostFormValue("fname"),
+			LName:    r.PostFormValue("lname"),
+			Email:    r.PostFormValue("email"),
+			Password: passOne,
+			Created:  time.Now(),
+		}
+		if err := user.Create(); err != nil {
+			log.Println("Cannot create user", err)
+		}
+		http.Redirect(w, r, "/", 302)
+	}
+	helper.ProcessTemplates(w, "layout", "", tmp...)
 }
