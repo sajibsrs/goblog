@@ -33,8 +33,8 @@ func New(w http.ResponseWriter, r *http.Request) {
 	}
 	var prob []string
 	tmp := []string{
-		"default.layout",
 		"user.new",
+		"default.layout",
 		"default.navigation",
 	}
 	if r.Method == "POST" {
