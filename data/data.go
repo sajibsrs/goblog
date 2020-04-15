@@ -5,10 +5,8 @@ import (
 	"crypto/sha1"
 	"database/sql"
 	"fmt"
-	"log"
-
-	// Import mysql driver
 	_ "github.com/go-sql-driver/mysql"
+	"log"
 )
 
 // DB define database variable
@@ -18,7 +16,7 @@ func init() {
 	var err error
 	DB, err = sql.Open("mysql", "root:8080k@tcp(localhost)/goblog")
 	if err != nil {
-		log.Fatalln("Unable stablish database connection", err)
+		log.Fatalln("Unable establish database connection", err)
 	}
 	return
 }
