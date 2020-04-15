@@ -5,9 +5,11 @@ package handler
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 )
 
+// Index handles default request
 func Index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
@@ -18,5 +20,8 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		"template/default/content.html",
 		"template/default/navigation.html"}
 	tmpl := template.Must(template.ParseFiles(files...))
-	_ = tmpl.ExecuteTemplate(w, "layout", r)
+	err := tmpl.ExecuteTemplate(w, "layout", r)
+	if err != nil {
+		log.Println("Unable to excute template", err)
+	}
 }
