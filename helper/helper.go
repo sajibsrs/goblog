@@ -12,8 +12,8 @@ import (
 // ProcessTemplates processes, parses and executes template files
 //  w = response writer
 //  name = template name
-//  data = data to be passed to the template
-//  tmp = template names to process in "directory.templateName" format
+//  data = data to pass to the template
+//  tmp = template names to process in "directory.template" format
 // Default template directory is named template and extension should be omitted
 func ProcessTemplates(w http.ResponseWriter, name string, data interface{} , tmp ...string) {
 	var procTmp []string
