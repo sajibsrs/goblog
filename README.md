@@ -4,7 +4,7 @@ Part of the challenge of creating same application with same features in **larav
 
 ## Features
 * HTTP server
-* HTTP request handling
+* TODO: HTTP request handling and routing
 * Template handing
 * Static resource handling
 * MySQL database integration
