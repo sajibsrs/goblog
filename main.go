@@ -21,7 +21,7 @@ func main() {
 		Addr:    "127.0.0.1:2000",
 		Handler: mux,
 	}
-	log.Printf("Server strted at %s", server.Addr)
+	log.Printf("Server started at %s", server.Addr)
 	err := server.ListenAndServe()
 	if err == http.ErrServerClosed || err == nil {
 		log.Println("Server closed", err)
