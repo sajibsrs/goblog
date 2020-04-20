@@ -30,11 +30,11 @@ type Session struct {
 // Create method creates new user with provided data
 func (user *User) Create() (err error) {
 	stmt, err := DB.Prepare("INSERT INTO users (uuid, fname, lname, email, password, created_at) VALUES (?, ?, ?, ?, ?, ?)")
-	defer stmt.Close()
 	if err != nil {
 		log.Println("Prepare statement error", err)
 		return
 	}
+	defer stmt.Close()
 	res, err := stmt.Exec(
 		GenerateUUID(),
 		user.FName,
@@ -58,11 +58,11 @@ func (user *User) Create() (err error) {
 // CreateSession creates new session for existing user
 func (user *User) CreateSession() (session Session, err error) {
 	stmt, err := DB.Prepare("INSERT INTO sessions (uuid, fname, lname, email, usr_id, created_at) VALUES (?, ?, ?, ?, ?, ?)")
-	defer stmt.Close()
 	if err != nil {
 		log.Println("Prepare statement error", err)
 		return
 	}
+	defer stmt.Close()
 	err = stmt.QueryRow(
 		GenerateUUID(),
 		user.FName,
