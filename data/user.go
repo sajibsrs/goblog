@@ -63,7 +63,7 @@ func (user *User) CreateSession() (session Session, err error) {
 		return
 	}
 	defer stmt.Close()
-	res, err := stmt.Exec(
+	_, err = stmt.Exec(
 		GenerateUUID(),
 		user.FName,
 		user.LName,
