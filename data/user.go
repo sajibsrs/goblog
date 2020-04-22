@@ -63,21 +63,21 @@ func (user *User) CreateSession() (session Session, err error) {
 		return
 	}
 	defer stmt.Close()
-	err = stmt.QueryRow(
+	res, err := stmt.Exec(
 		GenerateUUID(),
 		user.FName,
 		user.LName,
 		user.Email,
 		user.ID,
 		time.Now(),
-	).Scan(
-		&session.ID,
-		&session.UUID,
-		&session.FName,
-		&session.LName,
-		&session.Email,
-		&session.UserID,
-		&session.Created,
 	)
+	if err != nil {
+		log.Println("Unable to create session data", err)
+	}
+	if err != nil {
+		log.Println("Unable to retrieve session data", err)
+	} else {
+		log.Printf("User created")
+	}
 	return
 }
