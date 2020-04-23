@@ -25,6 +25,7 @@ Part of the challenge of creating same application with same features in **larav
 ## Dependency
 * Database: MySQL
 * Database driver: github.com/go-sql-driver/mysql
+* http router: github.com/julienschmidt/httprouter
 * UI: Bootstrap and its dependencies.
 
 ## Instruction
