@@ -25,7 +25,7 @@ Part of the challenge of creating same application with same features in **larav
 ## Dependency
 * Database: MySQL
 * Database driver: github.com/go-sql-driver/mysql
-* http router: github.com/julienschmidt/httprouter
+* http router: github.com/julienschmidt/httprouter `because default router doesn't support dynamic routing.`
 * UI: Bootstrap and its dependencies.
 
 ## Instruction
