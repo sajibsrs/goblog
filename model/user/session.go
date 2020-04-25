@@ -1,6 +1,7 @@
-package data
+package user
 
 import (
+	"goblog/database"
 	"log"
 	"time"
 )
@@ -17,15 +18,15 @@ type Session struct {
 }
 
 // CreateSession creates new session for existing user
-func (user *User) CreateSession() (session Session, err error) {
-	stmt, err := DB.Prepare("INSERT INTO sessions (uuid, fname, lname, email, usr_id, created_at) VALUES (?, ?, ?, ?, ?, ?)")
+func (user user.User) CreateSession() (session Session, err error) {
+	stmt, err := database.DB.Prepare("INSERT INTO sessions (uuid, fname, lname, email, usr_id, created_at) VALUES (?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		log.Println("Prepare statement error", err)
 		return
 	}
 	defer log.Fatal(stmt.Close())
 	_, err = stmt.Exec(
-		GenerateUUID(),
+		database.GenerateUUID(),
 		user.FName,
 		user.LName,
 		user.Email,

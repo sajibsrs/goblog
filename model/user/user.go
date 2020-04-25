@@ -2,6 +2,8 @@ package data
 
 import (
 	"log"
+	"regexp"
+	"strings"
 	"time"
 )
 
@@ -14,6 +16,34 @@ type User struct {
 	Email    string
 	Password string
 	Created  time.Time
+}
+
+// Message displays user fields validation messages
+type Message struct {
+	*User
+	Errors map[string]string
+}
+
+// Validate method checks for user fields validation and generates messages
+// to display in the front end
+func (msg *Message) Validate() map[string]string {
+	var rxEmail = regexp.MustCompile(".+@.+\\..+")
+	msg.Errors = make(map[string]string)
+
+	match := rxEmail.Match([]byte(msg.Email))
+	if match == false {
+		msg.Errors["email"] = "Please enter a valid email"
+	}
+	if strings.TrimSpace(msg.FName) == "" {
+		msg.Errors["fname"] = "First name is required"
+	}
+	if strings.TrimSpace(msg.FName) == "" {
+		msg.Errors["lname"] = "First name is required"
+	}
+	if len(msg.Password) < 6 {
+		msg.Errors["pwd"] = "Password must be at least 6 characters"
+	}
+	return msg.Errors
 }
 
 // Create method creates new user with provided data

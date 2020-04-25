@@ -1,28 +1,25 @@
-// This file handles default routes of the application
-// and serves templates accordingly
-
 package route
 
 import (
 	"github.com/julienschmidt/httprouter"
-	"html/template"
+	"goblog/controller/user"
 	"log"
 	"net/http"
+	"os"
 )
 
-// Index handles default request
-func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	if r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
-	}
-	files := []string{
-		"template/default/layout.html",
-		"template/default/content.html",
-		"template/default/navigation.html"}
-	tmpl := template.Must(template.ParseFiles(files...))
-	err := tmpl.ExecuteTemplate(w, "layout", r)
+// Route handles routing rules of the application
+func Route(r *httprouter.Router) {
+	dir, err := os.Getwd()
 	if err != nil {
-		log.Println("Unable to excute template", err)
+		log.Fatal("Unable to retrieve working directory")
 	}
+	r.ServeFiles("/static/*filepath", http.Dir(dir + "/static"))
+	r.GET("/", user.Index)
+	r.POST("/signup", user.New)
+	r.GET("/signup", user.New)
+	r.GET("/users", user.Index)
+	r.GET("/users/view/:id", user.Index)
+	r.GET("/users/new", user.New)
+	r.POST("/users/create", user.New)
 }
