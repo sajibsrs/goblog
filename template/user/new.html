@@ -1,7 +1,7 @@
 {{ define "content" }}
 
-{{ if . }}
-  {{ range . }}
+{{ if .Errors }}
+  {{ range .Errors }}
     <div class="alert alert-danger" role="alert">
       {{ . }}
     </div>
