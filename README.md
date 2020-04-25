@@ -29,5 +29,10 @@ Part of the challenge of creating same application with same features in **larav
 * UI: Bootstrap and its dependencies.
 
 ## Instruction
-* Database setup: TODO
-* Run dev server: **go run main.go** and visit to 127.0.0.1:2000 on the browser.
+#### Database setup:
+* Login to mysql `mysql -u root -p`
+* Create database `CREATE DATABASE dbname`
+* Import sql data from `data/data.sql` into the database `mysql -u root -p dbname < data/data.sql`
+**************************
+#### Run server:
+* Dev server: **go run main.go** and visit to 127.0.0.1:2000 on the browser.
