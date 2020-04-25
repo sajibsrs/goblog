@@ -1,7 +1,7 @@
 // This file handles default routes of the application
 // and serves templates accordingly
 
-package handler
+package route
 
 import (
 	"github.com/julienschmidt/httprouter"
