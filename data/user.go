@@ -23,7 +23,7 @@ func (user *User) Create() (err error) {
 		log.Println("Prepare statement error", err)
 		return
 	}
-	defer stmt.Close()
+	defer log.Fatal(stmt.Close())
 	res, err := stmt.Exec(
 		GenerateUUID(),
 		user.FName,
