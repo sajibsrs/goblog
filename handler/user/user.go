@@ -4,6 +4,7 @@
 package user
 
 import (
+	"github.com/julienschmidt/httprouter"
 	"goblog/data"
 	"goblog/helper"
 	"log"
@@ -12,7 +13,7 @@ import (
 )
 
 // Index handles user root request
-func Index(w http.ResponseWriter, r *http.Request) {
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if r.URL.Path != "/users" {
 		http.NotFound(w, r)
 		return
@@ -26,7 +27,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 // New handles new create user request
-func New(w http.ResponseWriter, r *http.Request) {
+func New(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if r.URL.Path != "/signup" {
 		http.NotFound(w, r)
 		return

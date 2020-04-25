@@ -4,13 +4,14 @@
 package handler
 
 import (
+	"github.com/julienschmidt/httprouter"
 	"html/template"
 	"log"
 	"net/http"
 )
 
 // Index handles default request
-func Index(w http.ResponseWriter, r *http.Request) {
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return

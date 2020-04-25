@@ -4,6 +4,7 @@
 package main
 
 import (
+	"github.com/julienschmidt/httprouter"
 	"goblog/handler"
 	"goblog/handler/user"
 	"log"
@@ -11,19 +12,16 @@ import (
 )
 
 func main() {
-	mux := http.NewServeMux()
-	files := http.FileServer(http.Dir("static"))
-	mux.Handle("/static/", http.StripPrefix("/static/", files))
-	mux.HandleFunc("/", handler.Index)
-	mux.HandleFunc("/signup", user.New)
-	mux.HandleFunc("/users", user.Index)
+	mux := httprouter.New()
+	mux.ServeFiles("/static/*filepath", http.Dir("/home/sajib/playground/goblog/static"))
+	mux.GET("/", handler.Index)
+	mux.POST("/signup", user.New)
+	mux.GET("/signup", user.New)
+	mux.GET("/users", user.Index)
 	server := &http.Server{
 		Addr:    "127.0.0.1:2000",
 		Handler: mux,
 	}
 	log.Printf("Server started at %s", server.Addr)
-	err := server.ListenAndServe()
-	if err == http.ErrServerClosed || err == nil {
-		log.Println("Server closed", err)
-	}
+	log.Fatal(server.ListenAndServe())
 }
