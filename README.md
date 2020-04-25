@@ -20,7 +20,7 @@ Part of the challenge of creating same application with same features in **larav
 * TODO: Post image and user profile picture
 
 ## Content
-* Go 1.14.1
+* go version go1.14.2 linux/amd64
 
 ## Dependency
 * Database: MySQL
