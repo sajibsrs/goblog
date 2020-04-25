@@ -5,9 +5,9 @@ package user
 
 import (
 	"github.com/julienschmidt/httprouter"
-	"goblog/data"
-	"goblog/data/model"
+	"goblog/database"
 	"goblog/helper"
+	"goblog/model/user"
 	"log"
 	"net/http"
 	"time"
@@ -45,39 +45,26 @@ func New(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 			log.Println("Unable to parse form", err)
 			return
 		}
-		//passOne := r.PostFormValue("pass_one")
-		//if len(passOne) < 6 {
-		//	prob = append(prob, "Password should be at least 6 characters")
-		//}
-		//if passTwo := r.PostFormValue("pass_two"); passOne != passTwo {
-		//	prob = append(prob, "Password doesn't match")
-		//}
-		//if prob != nil {
-		//	helper.ProcessTemplates(w, "layout", prob, tmp...)
-		//	return
-		//}
-		user := model.User{
-			UUID:     data.GenerateUUID(),
+		usr := &user.User{
+			UUID:     database.GenerateUUID(),
 			FName:    r.PostFormValue("fname"),
 			LName:    r.PostFormValue("lname"),
 			Email:    r.PostFormValue("email"),
 			Password: r.PostFormValue("pass_one"),
 			Created:  time.Now(),
 		}
-
-		msg := &model.Message{
-			User:   user,
+		usrData := &user.Message{
+			User:   usr,
 		}
-		m := msg.Validate()
-		if user.Password != r.PostFormValue("pass_two") {
-			m["Password"] = "Password doesn't match"
+		msg := usrData.Validate()
+		if usr.Password != r.PostFormValue("pass_two") {
+			msg["pwd_match"] = "Password doesn't match"
 		}
-		if len(m) > 0 {
-			helper.ProcessTemplates(w, "layout", msg, tmp...)
+		if len(msg) > 0 {
+			helper.ProcessTemplates(w, "layout", usrData, tmp...)
 			return
 		}
-
-		if err := user.Create(); err != nil {
+		if err := usr.Create(); err != nil {
 			log.Println("Cannot create user", err)
 		}
 		http.Redirect(w, r, "/", 302)
