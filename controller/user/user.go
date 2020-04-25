@@ -15,10 +15,6 @@ import (
 
 // Index handles user root request
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	if r.URL.Path != "/users" {
-		http.NotFound(w, r)
-		return
-	}
 	tmp := []string{
 		"user.detail",
 		"default.layout",
@@ -29,11 +25,6 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // New handles new create user request
 func New(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	if r.URL.Path != "/signup" {
-		http.NotFound(w, r)
-		return
-	}
-	//var prob []string
 	tmp := []string{
 		"user.new",
 		"default.layout",
