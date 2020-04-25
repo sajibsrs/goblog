@@ -1,6 +1,7 @@
-package data
+package user
 
 import (
+	"goblog/database"
 	"log"
 	"regexp"
 	"strings"
@@ -48,18 +49,18 @@ func (msg *Message) Validate() map[string]string {
 
 // Create method creates new user with provided data
 func (user *User) Create() (err error) {
-	stmt, err := DB.Prepare("INSERT INTO users (uuid, fname, lname, email, password, created_at) VALUES (?, ?, ?, ?, ?, ?)")
+	stmt, err := database.DB.Prepare("INSERT INTO users (uuid, fname, lname, email, password, created_at) VALUES (?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		log.Println("Prepare statement error", err)
 		return
 	}
 	defer log.Fatal(stmt.Close())
 	res, err := stmt.Exec(
-		GenerateUUID(),
+		database.GenerateUUID(),
 		user.FName,
 		user.LName,
 		user.Email,
-		Encrypt(user.Password),
+		database.Encrypt(user.Password),
 		time.Now(),
 	)
 	if err != nil {
