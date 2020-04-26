@@ -19,15 +19,15 @@ type User struct {
 	Created  time.Time
 }
 
-// Message displays user fields validation messages
-type Message struct {
+// UserData displays user fields validation messages
+type UserData struct {
 	*User
 	Errors map[string]string
 }
 
 // Validate method checks for user fields validation and generates messages
 // to display in the front end
-func (msg *Message) Validate() map[string]string {
+func (msg *UserData) Validate() map[string]string {
 	var rxEmail = regexp.MustCompile(".+@.+\\..+")
 	msg.Errors = make(map[string]string)
 
