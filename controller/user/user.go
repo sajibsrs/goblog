@@ -44,15 +44,15 @@ func New(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 			Password: r.PostFormValue("pass_one"),
 			Created:  time.Now(),
 		}
-		usrData := &user.Message{
+		data := user.Data{
 			User:   usr,
 		}
-		msg := usrData.Validate()
+		msg := data.Validate()
 		if usr.Password != r.PostFormValue("pass_two") {
 			msg["pwd_match"] = "Password doesn't match"
 		}
 		if len(msg) > 0 {
-			helper.ProcessTemplates(w, "layout", usrData, tmp...)
+			helper.ProcessTemplates(w, "layout", data, tmp...)
 			return
 		}
 		if err := usr.Create(); err != nil {
@@ -60,5 +60,5 @@ func New(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		}
 		http.Redirect(w, r, "/", 302)
 	}
-	helper.ProcessTemplates(w, "layout", "", tmp...)
+	helper.ProcessTemplates(w, "layout", nil, tmp...)
 }
