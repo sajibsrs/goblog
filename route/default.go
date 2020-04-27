@@ -20,6 +20,4 @@ func Route(r *httprouter.Router) {
 	r.GET("/signup", user.New)
 	r.GET("/users", user.Index)
 	r.GET("/users/view/:id", user.Index)
-	r.GET("/users/new", user.New)
-	r.POST("/users/create", user.New)
 }
