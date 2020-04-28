@@ -21,7 +21,7 @@ type User struct {
 
 // Data displays user fields validation messages
 type Data struct {
-	*User
+	User
 	Errors map[string]string
 }
 
@@ -72,5 +72,13 @@ func (user *User) Create() (err error) {
 	} else {
 		log.Printf("User created with id:%d", id)
 	}
+	return
+}
+
+// GetUserByEmail returns a user based on given email address
+func GetUserByEmail(email string) (user User, err error) {
+	user = User{}
+	err = database.DB.QueryRow("SELECT id, uuid, fname, lname, email, password, created_at FROM users WHERE email=?", email).
+		Scan(&user.ID, &user.UUID, &user.FName, &user.LName, &user.Email, &user.Password, &user.Created)
 	return
 }
