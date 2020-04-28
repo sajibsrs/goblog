@@ -17,6 +17,6 @@ func main() {
 		Addr:    "127.0.0.1:2000",
 		Handler: router,
 	}
-	log.Printf("Server started at %s", server.Addr)
+	log.Printf("Server started at http://%s", server.Addr)
 	log.Fatal(server.ListenAndServe())
 }
