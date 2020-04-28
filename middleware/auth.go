@@ -33,7 +33,7 @@ func Auth(w http.ResponseWriter, r *http.Request,  _ httprouter.Params) {
 	}
 }
 
-func ValidateLogin(w http.ResponseWriter, r *http.Request) (session model.Session, err error) {
+func ValidateAuth(w http.ResponseWriter, r *http.Request) (session model.Session, err error) {
 	cookie, err := r.Cookie("_cookie")
 	if err == nil {
 		session = model.Session{UUID: cookie.Value}
