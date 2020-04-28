@@ -1,4 +1,4 @@
-package user
+package model
 
 import (
 	"goblog/database"
@@ -54,7 +54,7 @@ func (user *User) Create() (err error) {
 		log.Println("Prepare statement error", err)
 		return
 	}
-	defer log.Fatal(stmt.Close())
+	defer stmt.Close()
 	res, err := stmt.Exec(
 		database.GenerateUUID(),
 		user.FName,
@@ -75,10 +75,44 @@ func (user *User) Create() (err error) {
 	return
 }
 
+// CreateSession creates new session for existing user
+func (user *User) CreateSession() (sessionID int64, err error) {
+	stmt, err := database.DB.Prepare("INSERT INTO sessions (uuid, fname, lname, email, usr_id, created_at) VALUES (?, ?, ?, ?, ?, ?)")
+	if err != nil {
+		log.Println("Prepare statement error", err)
+		return
+	}
+	defer stmt.Close()
+	res, err := stmt.Exec(
+		database.GenerateUUID(),
+		user.FName,
+		user.LName,
+		user.Email,
+		user.ID,
+		time.Now(),
+	)
+	if err != nil {
+		log.Println("Unable to create session data", err)
+	}
+	sessionID , err = res.LastInsertId()
+	log.Println("session id:", sessionID)
+	if err != nil {
+		log.Println("Unable to retrieve session id", err)
+	}else {
+		log.Printf("Session created successfully")
+	}
+	return
+}
+
 // GetUserByEmail returns a user based on given email address
 func GetUserByEmail(email string) (user User, err error) {
-	user = User{}
-	err = database.DB.QueryRow("SELECT id, uuid, fname, lname, email, password, created_at FROM users WHERE email=?", email).
+	err = database.DB.QueryRow("SELECT id, uuid, fname, lname, email, password, created_at FROM users WHERE email = ?", email).
 		Scan(&user.ID, &user.UUID, &user.FName, &user.LName, &user.Email, &user.Password, &user.Created)
+	if err != nil {
+		log.Println("Get user by email query failed", err)
+		return
+	}else {
+		log.Println("User retrieved by email successfully")
+	}
 	return
 }
