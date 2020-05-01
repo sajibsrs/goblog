@@ -7,7 +7,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"goblog/database"
 	"goblog/helper"
-	"goblog/model/user"
+	"goblog/middleware/auth"
+	"goblog/model"
 	"log"
 	"net/http"
 	"time"
@@ -15,12 +16,26 @@ import (
 
 // Index handles user root request
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	_, _ = auth.ValidateSession(w, r)
+	users := All()
 	tmp := []string{
-		"user.detail",
+		"user.list",
 		"default.layout",
 		"default.navigation",
 	}
-	helper.ProcessTemplates(w, "layout", r, tmp...)
+	helper.ProcessTemplates(w, "layout", users, tmp...)
+}
+
+// Index handles user root request
+func View(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	_, _ = auth.ValidateSession(w, r)
+	users := All()
+	tmp := []string{
+		"user.list",
+		"default.layout",
+		"default.navigation",
+	}
+	helper.ProcessTemplates(w, "layout", users, tmp...)
 }
 
 // New handles new create user request
@@ -36,7 +51,7 @@ func New(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 			log.Println("Unable to parse form", err)
 			return
 		}
-		usr := &user.User{
+		usr := model.User{
 			UUID:     database.GenerateUUID(),
 			FName:    r.PostFormValue("fname"),
 			LName:    r.PostFormValue("lname"),
@@ -44,7 +59,7 @@ func New(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 			Password: r.PostFormValue("pass_one"),
 			Created:  time.Now(),
 		}
-		data := user.Data{
+		data := model.Data{
 			User:   usr,
 		}
 		msg := data.Validate()
@@ -61,4 +76,23 @@ func New(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		http.Redirect(w, r, "/", 302)
 	}
 	helper.ProcessTemplates(w, "layout", nil, tmp...)
+}
+
+// All returns all users from database
+func All() []model.User {
+	result, err := database.DB.Query(`SELECT id, uuid, fname, lname, email, created_at  FROM users`)
+	if err != nil {
+		log.Println("Get all session failed", err)
+	}
+	var users []model.User
+	for result.Next() {
+		var user model.User
+		err := result.Scan(&user.ID, &user.UUID, &user.FName, &user.LName, &user.Email, &user.Created)
+		if err != nil {
+			log.Println("Unable to get user", err)
+		} else {
+			users = append(users, user)
+		}
+	}
+	return users
 }
