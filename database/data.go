@@ -14,7 +14,7 @@ var DB *sql.DB
 
 func init() {
 	var err error
-	DB, err = sql.Open("mysql", "root:8080k@tcp(localhost)/goblog")
+	DB, err = sql.Open("mysql", "root:8080k@tcp(localhost)/goblog?parseTime=true")
 	if err != nil {
 		log.Fatalln("Unable establish database connection", err)
 	}
