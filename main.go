@@ -5,10 +5,15 @@ package main
 
 import (
 	"github.com/julienschmidt/httprouter"
+	"goblog/middleware/auth"
 	"goblog/route"
 	"log"
 	"net/http"
 )
+
+func init() {
+	auth.CleanupSession()
+}
 
 func main() {
 	router := httprouter.New()
