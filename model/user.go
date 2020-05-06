@@ -77,7 +77,8 @@ func (user *User) Create() (err error) {
 
 // CreateSession creates new session for existing user
 func (user *User) CreateSession() (sessionID int64, err error) {
-	stmt, err := database.DB.Prepare("INSERT INTO sessions (uuid, fname, lname, email, usr_id, created_at) VALUES (?, ?, ?, ?, ?, ?)")
+	stmt, err := database.DB.Prepare(`INSERT INTO sessions (uuid, fname, lname, email, usr_id, created_at) 
+		VALUES (?, ?, ?, ?, ?, ?)`)
 	if err != nil {
 		log.Println("Prepare statement error", err)
 		return
