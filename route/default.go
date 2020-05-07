@@ -2,7 +2,9 @@ package route
 
 import (
 	"github.com/julienschmidt/httprouter"
+	"goblog/controller"
 	"goblog/controller/user"
+	"goblog/middleware/auth"
 	"log"
 	"net/http"
 	"os"
@@ -15,9 +17,11 @@ func Route(r *httprouter.Router) {
 		log.Fatal("Unable to retrieve working directory")
 	}
 	r.ServeFiles("/static/*filepath", http.Dir(dir + "/static"))
-	r.GET("/", user.Index)
+	r.GET("/", controller.Index)
+	r.GET("/login", auth.Login)
+	r.POST("/login", auth.CreateSession)
 	r.POST("/signup", user.New)
 	r.GET("/signup", user.New)
 	r.GET("/users", user.Index)
-	r.GET("/users/view/:id", user.Index)
+	r.GET("/users/:id", user.View)
 }
