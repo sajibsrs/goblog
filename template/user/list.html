@@ -2,22 +2,24 @@
 
 <h1 class="h2">All users</h1>
 <hr class="mb-4">
-
+{{ if . }}
 <div class="row">
-    <div class="col-sm">
-        <div class="media">
+{{ range . }}
+    <div class="col-6">
+        <div class="media mb-5">
             <svg class="mr-3 rounded-circle" width="100px" height="100px"
                  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
                  focusable="false" role="img" aria-label="Placeholder: Image cap">
                 <rect width="100%" height="100%" fill="#868e96"></rect>
             </svg>
             <div class="media-body">
-                <h5 class="mt-0">user_name</h5>
-                <p>Some information about user</p>
-                <a href="#">link_to_profile</a>
+                <h5 class="mt-0">{{ .FName }} {{ .LName }}</h5>
+                <p class="mb-2">Email: {{ .Email }}</p>
+                <a href="/users/{{ .ID }}">Show user</a>
             </div>
         </div>
     </div>
+{{ end }}
 </div>
-
+{{ end }}
 {{ end }}
