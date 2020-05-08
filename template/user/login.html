@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{{ define "content" }}
+
+    {{ if .Errors }}
+        {{ range .Errors }}
+            <div class="alert alert-danger" role="alert">
+                {{ . }}
+            </div>
+        {{ end }}
+    {{ end }}
+
+    <form class="form-signup" role="form" action="/login" method="post">
+        <h2 class="form-signup-heading">Sign in</h2>
+        <hr>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input id="email" type="email" name="email" class="form-control" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input id="password" type="password" name="password" class="form-control" required autofocus>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Sign up</button>
+        </div>
+    </form>
+
+{{ end }}
